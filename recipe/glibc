@@ -1,0 +1,31 @@
+#!/bin/bash
+
+package_name="glibc"
+package_version="2.41"
+package_address="http://ftp.gnu.org/gnu/$package_name/$package_name-$package_version.tar.gz"
+package_dependencies="bison gawk python"
+
+function do_configure
+{
+    echo "rootsbindir=/usr/sbin" > "$package_source/configparms"
+
+    "$package_source/configure"           \
+        --disable-nscd                    \
+        --disable-werror                  \
+        --enable-kernel="5.4"             \
+        --enable-stack-protector="strong" \
+        --prefix="/usr"                   \
+        libc_cv_slibdir="/usr/lib"
+}
+
+function do_build
+{
+    make
+}
+
+function do_install
+{
+    make DESTDIR="$package_directory" install
+
+    sed "/RTLDLIST=/s@/usr@@g" --in-place "$package_directory/usr/bin/ldd"
+}

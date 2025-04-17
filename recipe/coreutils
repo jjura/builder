@@ -1,0 +1,21 @@
+#!/bin/bash
+
+package_name="coreutils"
+package_version="9.6"
+package_address="http://ftp.gnu.org/gnu/$package_name/$package_name-$package_version.tar.gz"
+package_dependencies=""
+
+function do_configure
+{
+    FORCE_UNSAFE_CONFIGURE="1" "$package_source/configure" --prefix="/usr"
+}
+
+function do_build
+{
+    make
+}
+
+function do_install
+{
+    make DESTDIR="$package_directory" install
+}

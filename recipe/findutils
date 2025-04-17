@@ -1,0 +1,23 @@
+#!/bin/bash
+
+package_name="findutils"
+package_version="4.10.0"
+package_address="http://ftp.gnu.org/gnu/$package_name/$package_name-$package_version.tar.xz"
+package_dependencies=""
+
+function do_configure
+{
+    "$package_source/configure"           \
+        --localstatedir="/var/lib/locate" \
+        --prefix="/usr"
+}
+
+function do_build
+{
+    make
+}
+
+function do_install
+{
+    make DESTDIR="$package_directory" install
+}

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+package_name="python"
+package_version="3.13.2"
+package_address="http://ftp.icm.edu.pl/pub/programming/$package_name/$package_version/Python-$package_version.tgz"
+package_dependencies=""
+
+function do_configure
+{
+    "$package_source/configure" \
+        --enable-shared         \
+        --prefix="/usr"         \
+        --without-ensurepip
+}
+
+function do_build
+{
+    make
+}
+
+function do_install
+{
+    make DESTDIR="$package_directory" install
+}

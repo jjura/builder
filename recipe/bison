@@ -1,0 +1,21 @@
+#!/bin/bash
+
+package_name="bison"
+package_version="3.8.2"
+package_address="http://ftp.gnu.org/gnu/$package_name/$package_name-$package_version.tar.gz"
+package_dependencies="m4 perl diffutils"
+
+function do_configure
+{
+    "$package_source/configure" --prefix="/usr"
+}
+
+function do_build
+{
+    make
+}
+
+function do_install
+{
+    make DESTDIR="$package_directory" install
+}

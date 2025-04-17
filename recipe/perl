@@ -1,0 +1,37 @@
+#!/bin/bash
+
+package_name="perl"
+package_version="5.40.1"
+package_address="http://www.cpan.org/src/5.0/$package_name-$package_version.tar.gz"
+package_dependencies="findutils"
+
+function do_configure
+{
+    cd "$package_source"
+
+    bash Configure                                      \
+        -des                                            \
+        -D archlib="/usr/lib/perl5/5.40/core_perl"      \
+        -D man1dir="/usr/share/man/man1"                \
+        -D man3dir="/usr/share/man/man3"                \
+        -D pager="/usr/bin/less -isR"                   \
+        -D prefix="/usr"                                \
+        -D privlib="/usr/lib/perl5/5.40/core_perl"      \
+        -D sitearch="/usr/lib/perl5/5.40/site_perl"     \
+        -D sitelib="/usr/lib/perl5/5.40/site_perl"      \
+        -D useshrplib                                   \
+        -D usethreads                                   \
+        -D vendorarch="/usr/lib/perl5/5.40/vendor_perl" \
+        -D vendorlib="/usr/lib/perl5/5.40/vendor_perl"  \
+        -D vendorprefix="/usr"
+}
+
+function do_build
+{
+    make --directory="$package_source"
+}
+
+function do_install
+{
+    make --directory="$package_source" DESTDIR="$package_directory" install
+}
